@@ -1,12 +1,14 @@
 package com.example.lab_3.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+import javax.servlet.http.HttpServletRequest;
+@Controller
 public class MainController {
-    @GetMapping("/index")
-    public String hello(){
-        return "Hello";
+
+    @RequestMapping(value = "/index")
+    private String index(){
+        return "index";
     }
 }
