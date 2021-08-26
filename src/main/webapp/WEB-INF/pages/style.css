@@ -87,7 +87,7 @@
   color: #EF3B3A;
 }
 body {
-  background: #76b852; /* fallback for old browsers */
+  background: #8e70b4; /* fallback for old browsers */
   background: -webkit-linear-gradient(right, #8e70b4, #8aa3d1);
   background: -moz-linear-gradient(right, #8e70b4, #8aa3d1);
   background: -o-linear-gradient(right, #8e70b4, #8aa3d1);

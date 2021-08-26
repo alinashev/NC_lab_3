@@ -1,4 +1,4 @@
-package com.example.lab_3.models;
+package lab_3.models;
 
 import java.sql.*;
 
@@ -11,9 +11,10 @@ public class Database {
 
     private Database() {
         try {
+            Class.forName("org.postgresql.Driver");
             conn = DriverManager.getConnection(url, user, password);
             System.out.println("Connected to the PostgreSQL server successfully.");
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             System.out.println(e.getMessage());
         }
     }

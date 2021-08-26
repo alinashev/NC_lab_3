@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./styleHomePage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <title>Home</title>
+</head>
+<body>
+    <header>
+        <div class = "header__logo">
+            <p>BUG TRACKER</p>
+        </div>
+        <nav>
+            <div class="topnav" id="myTopnav">
+                <a id="createTicket" class="createTicket" href="createTicket.html">CREATE TICKET</a>
+                <a href="home.html">HOME</a>
+                <a href="projects.html">PROJECTS</a>
+                <a href="search.html">SEARCH</a>
+                <a href="logout" th:text="'('+${userName}+') LOGOUT'"> </a>
+                <a href="#" id="menu" class = "icon"> &#9776 </a>
+            </div>
+        </nav>
+    </header>
+    <main>
+
+    </main>
+</body>
+<script src="scriptHomePage.js"> </script>
+</html>
