@@ -36,5 +36,4 @@ public class UserManagmentController {
             throwables.printStackTrace();
         }
     }
-
 }

@@ -1,6 +1,12 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head>
-    <link href="style.css" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link href="../static/styleRegAuth.css" rel="stylesheet">
   </head>
 <body>
     <div class="login-page">
@@ -9,7 +15,7 @@
                 <input type="text" placeholder="username" name="username"/>
                 <input type="password" placeholder="password" name="password"/>
                 <button type="submit">login</button>
-                <p class="message">Not registered? <a href="/reg">Create an account</a></p>
+                <p class="message">Not registered? <a href="reg">Create an account</a></p>
             </form>
         </div>
     </div>
