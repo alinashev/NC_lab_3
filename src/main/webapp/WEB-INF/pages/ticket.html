@@ -4,9 +4,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../static/styleHomePage.css">
+    <link rel="stylesheet" href="styleHomePage.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styleTicket.css">
 
     <title>Home</title>
 </head>
@@ -28,18 +27,58 @@
     </header>
     <main>
         <div class="table">
-            <p>fgfgffgf</p>
-            <p>fgfgffgf</p>
-            <p>fgfgffgf</p>
-            <p>fgfgffgf</p>
+            <p>
+                <span>Ticket id: </span>
+                <span th:text="${ticket.ticketId}"></span>
+            </p>
+            <p>
+                <span>Project id: </span>
+                <span th:text="${ticket.projectId}"></span>
+            </p>
+            <p>
+                <span>Author: </span>
+                <span th:text="${ticket.author}"></span>
+            </p>
+            <p>
+                <span>Name: </span>
+                <span th:text="${ticket.name}"></span>
+            </p>
+            <p>
+                <span>Bug status: </span>
+                <span th:text="${ticket.bugStatus}"></span>
+            </p>
+            <p>
+                <span>Severity: </span>
+                <span th:text="${ticket.severity}"></span>
+            </p>
+            <p>
+                <span>Priority: </span>
+                <span th:text="${ticket.priority}"></span>
+            </p>
+            <p>
+                <span>Summary: </span>
+                <span th:text="${ticket.summary}"></span>
+            </p>
+            <p>
+                <span>Creation date: </span>
+                <span th:text="${ticket.date}"></span>
+            </p>
+            <p>
+                <span>Expected: </span>
+                <span th:text="${ticket.expected}"></span>
+            </p>
+            <p>
+                <span>Actual: </span>
+                <span th:text="${ticket.actual}"></span>
+            </p>
 
             <div class="middle">
-                <a href="" class="btn btn1">DELETE</a>
+                <a th:href="@{'/deleteTicket/'+ ${ticket.ticketId}}" class="btn btn1">DELETE</a>
             </div>
            
         </div>
         
     </main>
 </body>
-<script src="scriptHomePage.js"> </script>
+<script src="../static/scriptHomePage.js"> </script>
 </html>

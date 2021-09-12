@@ -1,7 +1,7 @@
 package lab_3.models;
 
-
-import lab_3.models.pojo.*;
+import lab_3.models.pojo.Project;
+import lab_3.models.pojo.Ticket;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,9 +15,10 @@ public class Database {
 
     private Database() {
         try {
+            Class.forName("org.postgresql.Driver");
             conn = DriverManager.getConnection(url, user, password);
             System.out.println("Connected to the PostgreSQL server successfully.");
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -41,7 +42,7 @@ public class Database {
         ResultSet resultSet = validationUser.executeQuery();
         while (resultSet.next()){
             if(resultSet.getInt(1) == 0){
-                PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO \"LAB3_ASH_User\" VALUES ((SELECT COUNT(id) FROM \"LAB3_ASH_User\" )+1,?, ?, ?)");
+                PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO \"LAB3_ASH_User\" VALUES ((SELECT max(\"id\") FROM \"LAB3_ASH_User\" )+1,?, ?, ?)");
                 preparedStatement.setString(1,username);
                 preparedStatement.setString(2,email);
                 preparedStatement.setString(3,password);
@@ -60,9 +61,10 @@ public class Database {
     }
 
     public void createNewTicket(String bugStatus, String severity, String priority,
-                                String name, String summary, String createdDate, String expected, String actual) throws SQLException {
+                                String name, String summary, String createdDate, String expected, String actual,
+                                String author, int projectId) throws SQLException {
         PreparedStatement preparedStatement = conn.prepareStatement
-                ("INSERT INTO \"LAB3_ASH_Ticket\" VALUES ((SELECT COUNT(ticket_id) FROM \"LAB3_ASH_Ticket\" )+1,?,?,?,?,?,?,?,?)");
+                ("INSERT INTO \"LAB3_ASH_Ticket\" VALUES ((SELECT max(\"ticket_id\") FROM \"LAB3_ASH_Ticket\")+1,?,?,?,?,?,?,?,?,?,?)");
         preparedStatement.setString(1,bugStatus);
         preparedStatement.setString(2,severity);
         preparedStatement.setString(3,priority);
@@ -71,6 +73,8 @@ public class Database {
         preparedStatement.setString(6,createdDate);
         preparedStatement.setString(7,expected);
         preparedStatement.setString(8,actual);
+        preparedStatement.setString(9,author);
+        preparedStatement.setInt(10,projectId);
         preparedStatement.executeUpdate();
     }
 
@@ -82,7 +86,8 @@ public class Database {
             list.add(new Ticket(
                     set.getInt(1),set.getString(2),set.getString(3),
                     set.getString(4),set.getString(5),set.getString(6),
-                    set.getString(7),set.getString(8),set.getString(9)));
+                    set.getString(7),set.getString(8),set.getString(9),
+                    set.getString(10), set.getInt(11)));
         }
         return list;
     }
@@ -95,7 +100,8 @@ public class Database {
             return new Ticket(
                     set.getInt(1), set.getString(2), set.getString(3),
                     set.getString(4), set.getString(5), set.getString(6),
-                    set.getString(7), set.getString(8), set.getString(9));
+                    set.getString(7), set.getString(8), set.getString(9),
+                    set.getString(10), set.getInt(11));
         }
         return null;
     }
@@ -115,16 +121,31 @@ public class Database {
             list.add(new Ticket(
                     set.getInt(1),set.getString(2),set.getString(3),
                     set.getString(4),set.getString(5),set.getString(6),
-                    set.getString(7),set.getString(8),set.getString(9)));
+                    set.getString(7),set.getString(8),set.getString(9),
+                    set.getString(10), set.getInt(11)));
         }
         System.out.println(preparedStatement.toString());
         System.out.println(list);
         return list;
     }
 
+    public Ticket searchTicket(String value) throws SQLException {
+        PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM \"LAB3_ASH_Ticket\" WHERE \"name\" ILIKE ?");
+        preparedStatement.setString(1,"%"+value+"%");
+        ResultSet set = preparedStatement.executeQuery();
+        while (set.next()){
+            return new Ticket(
+                    set.getInt(1),set.getString(2),set.getString(3),
+                    set.getString(4),set.getString(5),set.getString(6),
+                    set.getString(7),set.getString(8),set.getString(9),
+                    set.getString(10), set.getInt(11));
+        }
+        return null;
+    }
+
     public void createNewProject(String projectName) throws SQLException {
         PreparedStatement preparedStatement = conn.prepareStatement
-                ("INSERT INTO \"LAB3_ASH_Project\" VALUES ((SELECT COUNT(project_id) FROM \"LAB3_ASH_Project\" )+1,?)");
+                ("INSERT INTO \"LAB3_ASH_Project\" VALUES ((SELECT max(\"project_id\") FROM FROM \"LAB3_ASH_Project\" )+1,?)");
         preparedStatement.setString(1,projectName);
         preparedStatement.executeUpdate();
     }

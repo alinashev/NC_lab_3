@@ -12,9 +12,12 @@ public class Ticket {
     private String date;
     private String expected;
     private String actual;
+    private String author;
+    private int projectId;
 
     public Ticket(int ticketId, String bugStatus, String severity, String priority,
-                  String name, String summary, String date, String expected, String actual) {
+                  String name, String summary, String date, String expected,
+                  String actual, String author, int projectId) {
         this.ticketId = ticketId;
         this.bugStatus = bugStatus;
         this.severity = severity;
@@ -24,6 +27,8 @@ public class Ticket {
         this.date = date;
         this.expected = expected;
         this.actual = actual;
+        this.projectId = projectId;
+        this.author = author;
     }
 
     public int getTicketId() {
@@ -98,6 +103,23 @@ public class Ticket {
         this.actual = actual;
     }
 
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -123,6 +145,8 @@ public class Ticket {
                 ", date='" + date + '\'' +
                 ", expected='" + expected + '\'' +
                 ", actual='" + actual + '\'' +
+                ", author='" + author + '\'' +
+                ", projectId=" + projectId +
                 '}';
     }
 }

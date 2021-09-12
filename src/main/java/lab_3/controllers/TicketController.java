@@ -25,12 +25,11 @@ public class TicketController extends GeneralController {
     public void createTicket(HttpSession httpSession, @RequestParam String desc, @RequestParam String bugStatus,
                              @RequestParam String severity, @RequestParam String priority,
                              @RequestParam String name, @RequestParam String expected, @RequestParam String actual,
-                             HttpServletResponse response) throws IOException {
+                             @RequestParam int projectId, HttpServletResponse response) throws IOException {
         try {
-            //TokenManager.decodeJWT(httpSession.getAttribute("auth-token").toString())
-            //                    .getIssuer()
             Database.database().createNewTicket(bugStatus, severity, priority,
-                    name, desc, formatter.format(new Date()), expected, actual);
+                    name, desc, formatter.format(new Date()), expected, actual,
+                    TokenManager.decodeJWT(httpSession.getAttribute("auth-token").toString()).getIssuer(),projectId);
             response.sendRedirect("/homePage");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -39,7 +38,8 @@ public class TicketController extends GeneralController {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/ticket/{id}")
-    public String get(Model model, HttpSession httpSession, @PathVariable String id, HttpServletResponse response) throws IOException, SQLException {
+    public String get(Model model, HttpSession httpSession, @PathVariable String id,
+                      HttpServletResponse response) throws IOException, SQLException {
         if(httpSession.getAttribute("auth-token") != null) {
             model.addAttribute("userName",
                     TokenManager.decodeJWT(httpSession.getAttribute("auth-token").toString())
@@ -53,7 +53,8 @@ public class TicketController extends GeneralController {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/deleteTicket/{id}")
-    public void delete(HttpSession httpSession, @PathVariable String id, HttpServletResponse response) throws SQLException, IOException {
+    public void delete(HttpSession httpSession, @PathVariable String id, HttpServletResponse response)
+            throws SQLException, IOException {
         if(httpSession.getAttribute("auth-token") != null) {
             Database.database().deleteTicket(id);
             response.sendRedirect("/homePage");
@@ -67,6 +68,9 @@ public class TicketController extends GeneralController {
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/searchTicket")
     public void search(@RequestParam String value) throws SQLException, IOException {
-        Database.database().searchTickets(value);
+        //Database.database().searchTickets(value);
+        //return Database.database().searchTicket(value);
     }
+
+
 }

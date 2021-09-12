@@ -1,7 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html>
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styleHomePage.css">
@@ -22,17 +19,62 @@
                 <a href="homePage">HOME</a>
                 <a href="projects">PROJECTS</a>
                 <a href="search">SEARCH</a>
-                <a href="logout" th:text="'('+${userName}+') LOGOUT'"> </a>
+
                 <a href="#" id="menu" class = "icon"> &#9776 </a>
             </div>
         </nav>
     </header>
     <main>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('button').click(function() {
+                    console.log("Executed")
+                    $.ajax({
+                        type : 'GET',
+                        headers : {
+                            Accept : "application/json; charset=utf-8",
+                            "Content-Type" : "application/json; charset=utf-8"
+                        },
+                        url : '/searchTicketByName',
+                        data: {
+                            "value": document.getElementById('name').value
+                        },
+                        success : function (responseText) {
+                            console.log(responseText)
+                            $("#ticketName").text(responseText["name"]);
+                            $("#projectId").text(responseText["projectId"]);
+                            $("#author").text(responseText["author"]);
+                            $("#openURL").attr('href',"/ticket/" + responseText["ticketId"]);
+                        }
+                    });
+                });
+            });
+        </script>
         <div class="table">
-            <form action="">
-                <input type="search">
+                <button type="button">Search
+                </button>
+                <input type="search" id="name">
                 <i class="fa fa-search"></i>
-            </form>
+            <center>
+
+
+            <p>
+                <span>Name: </span>
+                <span id="ticketName"></span>
+            </p>
+            <p>
+                <span>Project id: </span>
+                <span id="projectId"></span>
+            </p>
+            <p>
+                <span>Author: </span>
+                <span id="author"></span>
+            </p>
+            <p>
+                <a id="openURL">Open</a>
+            </p>
+            </center>
         </div>
         
     </main>
