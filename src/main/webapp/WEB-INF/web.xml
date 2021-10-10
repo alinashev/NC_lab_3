@@ -7,8 +7,6 @@
   <display-name>Test Spring MVC</display-name>
   <welcome-file-list>
       <welcome-file>auth.jsp</welcome-file>
-      <welcome-file>auth.html</welcome-file>
-      <welcome-file>auth.htm</welcome-file>
       <welcome-file>default.html</welcome-file>
       <welcome-file>default.htm</welcome-file>
       <welcome-file>default.jsp</welcome-file>
@@ -25,10 +23,9 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>test</servlet-name>
-    <url-pattern>/*</url-pattern>
-    <url-pattern>/index.jsp</url-pattern>
-    <url-pattern>/welcome.html</url-pattern>
-    <url-pattern>*.html</url-pattern>
+    <url-pattern>/</url-pattern>
+    <url-pattern>/auth.jsp</url-pattern>
+    <url-pattern>*.jsp</url-pattern>
   </servlet-mapping>
 
 </web-app>

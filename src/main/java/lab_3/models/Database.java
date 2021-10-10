@@ -2,7 +2,13 @@ package lab_3.models;
 
 import lab_3.models.pojo.Project;
 import lab_3.models.pojo.Ticket;
+import org.apache.ibatis.jdbc.ScriptRunner;
+import org.springframework.core.SpringVersion;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -18,7 +24,20 @@ public class Database {
             Class.forName("org.postgresql.Driver");
             conn = DriverManager.getConnection(url, user, password);
             System.out.println("Connected to the PostgreSQL server successfully.");
-        } catch (SQLException | ClassNotFoundException e) {
+
+            DatabaseMetaData dbm = conn.getMetaData();
+            ResultSet rs = dbm.getTables(null, null, "%", null);
+            if (rs.next()) {
+                System.out.println("Table exists");
+                System.out.println(rs.getString(3));
+            } else {
+                System.out.println("Table does not exist");
+                ScriptRunner sr = new ScriptRunner(conn);
+                Reader reader = new BufferedReader(new FileReader("src/main/resources/create.sql"));
+                sr.runScript(reader);
+            }
+
+        } catch (SQLException | ClassNotFoundException | FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
     }

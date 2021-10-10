@@ -5,7 +5,9 @@ import lab_3.models.TokenManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -23,16 +25,17 @@ public class MainController {
     }
 
     @RequestMapping("/reg")
-    public String regPage(HttpSession httpSession, HttpServletResponse response) throws IOException {
+    public ModelAndView regPage(HttpSession httpSession, HttpServletResponse response, HttpServletRequest request) throws IOException {
         System.out.println("smt");
         if(httpSession.getAttribute("auth-token") != null){
             response.sendRedirect("/homePage");
         }
-        return "reg";
+        return new ModelAndView("reg");
     }
 
     @RequestMapping("/homePage")
-    private String homePage(HttpSession httpSession, Model model, HttpServletResponse response) throws IOException {
+    private String homePage(HttpSession httpSession,Model model, HttpServletResponse response) throws IOException {
+        //ModelAndView modelAndView = new ModelAndView();
         if(httpSession.getAttribute("auth-token") != null) {
             model.addAttribute("userName",
                     TokenManager.decodeJWT(httpSession.getAttribute("auth-token").toString())

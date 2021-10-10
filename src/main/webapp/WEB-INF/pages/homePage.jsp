@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../static/styleHomePage.css">
